@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>For Numnim 🤍</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap');
+
+* {
+  box-sizing: border-box;
+  font-family: "Prompt", sans-serif;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4, #ffd1ff);
+  overflow: hidden;
+}
+
+/* Floating hearts background */
+.heart {
+  position: absolute;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 20px;
+  animation: floatUp 6s linear infinite;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(100vh) scale(0.5);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-10vh) scale(1.2);
+    opacity: 0;
+  }
+}
+
+/* Card */
+.card {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  border-radius: 24px;
+  padding: 32px 28px;
+  text-align: center;
+  max-width: 360px;
+  color: #fff;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  animation: fadeIn 1.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.text {
+  font-size: 16px;
+  line-height: 1.7;
+  margin-top: 10px;
+  min-height: 120px;
+  transition: all 0.4s ease;
+}
+
+.btn {
+  margin-top: 22px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #ff5f6d, #ffc371);
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* Final animation overlay */
+.final-screen {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle, #ff5f6d, #ff2d55, #c31432);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  font-size: 26px;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1s ease;
+}
+
+.final-screen.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.final-heart {
+  font-size: 80px;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+/* Falling hearts on final screen */
+.big-heart {
+  position: absolute;
+  font-size: 24px;
+  color: rgba(255,255,255,0.8);
+  animation: fall 4s linear infinite;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-10vh) scale(0.6);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110vh) scale(1.3);
+    opacity: 0;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Background hearts -->
+<script>
+for (let i = 0; i < 25; i++) {
+  const h = document.createElement("div");
+  h.className = "heart";
+  h.innerText = "🤍";
+  h.style.left = Math.random() * 100 + "vw";
+  h.style.animationDuration = 4 + Math.random() * 4 + "s";
+  h.style.fontSize = 12 + Math.random() * 24 + "px";
+  document.body.appendChild(h);
+}
+</script>
+
+<div class="card">
+  <div class="title">Happy Valentine’s Day 🤍</div>
+  <div class="text" id="text">
+    ถึงวันแห่งความรัก ผมมีเรื่องอยากขอ...
+  </div>
+  <button class="btn" id="btn">กดตรงนี้ 🤍</button>
+</div>
+
+<div class="final-screen" id="finalScreen">
+  <div class="final-heart">🤍</div>
+  <div style="margin-top: 12px;">
+    Happy Valentine’s Day<br/>
+    ขอบคุณที่ให้พี่ได้รู้จักหนูนะ 🤍
+  </div>
+</div>
+
+<!-- Background music -->
+<audio id="bgm" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_2c1e5f9a85.mp3?filename=romantic-ambient-11376.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const texts = [
+  "ถึงวันแห่งความรัก ผมมีเรื่องอยากขอ...",
+  "ขอให้นุ่มนิ่มเจอรักที่ใส่ใจ ดูแลหนูได้ดี และเป็นความสบายใจให้นุ่มนิ่มนะครับ",
+  "ถ้าพี่มีโอกาสได้เป็นคนนั้น…",
+  "พี่จะตั้งใจให้ดีที่สุดนะ 😊🤍"
+];
+
+let step = 0;
+const textEl = document.getElementById("text");
+const btn = document.getElementById("btn");
+const finalScreen = document.getElementById("finalScreen");
+const bgm = document.getElementById("bgm");
+
+btn.addEventListener("click", () => {
+  bgm.play().catch(()=>{});
+  step++;
+  if (step < texts.length) {
+    textEl.style.opacity = 0;
+    setTimeout(() => {
+      textEl.innerText = texts[step];
+      textEl.style.opacity = 1;
+    }, 300);
+  } else {
+    showFinal();
+  }
+});
+
+function showFinal() {
+  finalScreen.classList.add("show");
+
+  // falling hearts
+  for (let i = 0; i < 40; i++) {
+    const h = document.createElement("div");
+    h.className = "big-heart";
+    h.innerText = "🤍";
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.animationDuration = 2 + Math.random() * 3 + "s";
+    h.style.fontSize = 16 + Math.random() * 40 + "px";
+    finalScreen.appendChild(h);
+  }
+}
+</script>
+
+</body>
+</html>
