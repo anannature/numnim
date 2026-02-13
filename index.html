@@ -28,11 +28,33 @@ body{
   100%{background-position:0% 50%}
 }
 
+/* SOFT FLOATING HEARTS (Intro + Card) */
+.soft-hearts{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+  z-index:0;
+}
+
+.soft-heart{
+  position:absolute;
+  bottom:-20px;
+  opacity:0.25;
+  animation:softFloat linear infinite;
+}
+
+@keyframes softFloat{
+  from{transform:translateY(0) scale(1)}
+  to{transform:translateY(-110vh) scale(1.2)}
+}
+
 /* INTRO */
 .intro{
-  position:absolute;
+  position:relative;
   text-align:center;
   color:white;
+  z-index:2;
 }
 
 .heart{
@@ -72,6 +94,8 @@ body{
 /* CARD */
 .card{
   display:none;
+  position:relative;
+  z-index:2;
   background:rgba(255,255,255,0.2);
   backdrop-filter:blur(15px);
   padding:30px;
@@ -121,6 +145,7 @@ button{
   background-size:400% 400%;
   animation:finalBG 8s ease infinite;
   overflow:hidden;
+  z-index:5;
 }
 
 @keyframes finalBG{
@@ -161,6 +186,8 @@ button{
 </head>
 <body>
 
+<div class="soft-hearts" id="softHearts"></div>
+
 <div class="intro" id="intro">
   <div class="heart" id="heart">❤️</div>
   <div class="intro-text" id="introText">
@@ -188,6 +215,20 @@ button{
 </audio>
 
 <script>
+// soft floating hearts
+const softContainer=document.getElementById("softHearts");
+for(let i=0;i<25;i++){
+  const h=document.createElement("div");
+  h.className="soft-heart";
+  h.innerText=Math.random()>0.5?"❤️":"🤍";
+  h.style.left=Math.random()*100+"%";
+  h.style.fontSize=(12+Math.random()*18)+"px";
+  h.style.animationDuration=(8+Math.random()*8)+"s";
+  h.style.animationDelay=Math.random()*5+"s";
+  softContainer.appendChild(h);
+}
+
+// intro logic
 let introStep=0;
 const heart=document.getElementById("heart");
 const introText=document.getElementById("introText");
@@ -217,7 +258,7 @@ heart.addEventListener("click",()=>{
   }
 });
 
-// CARD
+// card logic
 const texts=[
   "ถึงวันแห่งความรัก ผมมีเรื่องอยากขอ...",
   "ขอให้นุ่มนิ่มเจอรักที่ใส่ใจ ดูแลหนูได้ดี และเป็นความสบายใจให้นุ่มนิ่มนะครับ",
@@ -246,7 +287,7 @@ btn.addEventListener("click",()=>{
 function showFinal(){
   finalScreen.classList.add("show");
 
-  for(let i=0;i<50;i++){
+  for(let i=0;i<60;i++){
     let h=document.createElement("div");
     h.className="floatHeart";
     h.innerText="❤️";
